@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Camera PWA</title>
+  <link rel="manifest" href="manifest.json" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .camera-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      height: 100vh;
+      background: #000;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .controls, .directional, .zoom {
+      position: absolute;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .controls {
+      bottom: 20px;
+      left: 62%;
+      transform: translateX(-50%);
+    }
+
+    .directional {
+      bottom: 20px;
+      left: 20px;
+      flex-direction: column;
+    }
+
+    .directional .row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .zoom {
+      top: 20px;
+      right: 20px;
+      flex-direction: column;
+    }
+
+    button {
+      background-color: rgba(255, 255, 255, 0.8);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      color: #000;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="camera-wrapper">
+    <video id="camera" autoplay playsinline></video>
+
+    <!-- Camera Controls -->
+    <div class="controls">
+      <button onclick="takePhoto()">📸</button>
+      <button onclick="flipCamera()">🔄</button>
+      <button onclick="stopCamera()">⏹️</button>
+    </div>
+
+    <!-- Directional Controls at Bottom Left -->
+    <div class="directional">
+      <div class="row">
+        <button onclick="move('up')">⬆️</button>
+      </div>
+      <div class="row">
+        <button onclick="move('left')">⬅️</button>
+        <button onclick="move('down')">⬇️</button>
+        <button onclick="move('right')">➡️</button>
+      </div>
+    </div>
+
+    <!-- Zoom Controls -->
+    <div class="zoom">
+      <button onclick="zoom('in')">➕</button>
+      <button onclick="zoom('out')">➖</button>
+    </div>
+  </div>
+
+  <script>
+    let stream;
+    let currentFacingMode = 'environment';
+
+    async function startCamera() {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: currentFacingMode },
+          audio: false
+        });
+        document.getElementById('camera').srcObject = stream;
+      } catch (err) {
+        alert("Camera access denied or unavailable.");
+      }
+    }
+
+    function stopCamera() {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        document.getElementById('camera').srcObject = null;
+      }
+    }
+
+    function takePhoto() {
+      alert("📷 Photo taken! (Mock)");
+    }
+
+    async function flipCamera() {
+      stopCamera();
+      currentFacingMode = currentFacingMode === 'environment' ? 'user' : 'environment';
+      await startCamera();
+    }
+
+    function move(direction) {
+      alert(`Moved ${direction} (just UI mock)`);
+    }
+
+    function zoom(type) {
+      alert(`Zoom ${type} (just UI mock)`);
+    }
+
+    // Start camera on load
+    startCamera();
+  </script>
+</body>
+</html>
