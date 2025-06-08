@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Camera PWA</title>
+  <!-- iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <title>INI Design</title>
   <link rel="manifest" href="manifest.json" />
   <script>
     if ('serviceWorker' in navigator) {
@@ -34,7 +42,9 @@
       object-fit: cover;
     }
 
-    .controls, .directional, .zoom {
+    .controls,
+    .directional,
+    .zoom {
       position: absolute;
       display: flex;
       gap: 15px;
@@ -83,6 +93,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="camera-wrapper">
     <video id="camera" autoplay playsinline></video>
@@ -158,4 +169,5 @@
     startCamera();
   </script>
 </body>
+
 </html>

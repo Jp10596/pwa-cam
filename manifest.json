@@ -1,8 +1,8 @@
 {
   "name": "INI Design Studio",
   "short_name": "INI Design",
-  "start_url": ".",
   "display": "standalone",
+  "start_url": ".",
   "background_color": "#ffffff",
   "theme_color": "#333333",
   "icons": [
